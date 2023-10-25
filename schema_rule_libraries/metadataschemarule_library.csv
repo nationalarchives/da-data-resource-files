@@ -1,0 +1,70 @@
+fieldname,rule
+identifier,"identifier: uri fileExists unique if($folder/is(""folder""),ends(""/"")) integrityCheck (""includeFolder"")"
+file_name,file_name: in(uriDecode($identifier))
+folder,"folder: is(""folder"") or is(""file"")"
+date_last_modified,date_last_modified: xDateTime
+checksum,"checksum: if($folder/is(""file""),checksum(file($identifier),""SHA-256""),empty)"
+rights_copyright,"rights_copyright: is(""Crown Copyright"")"
+legal_status,"legal_status: any(""Public Record(s)"",""Not Public Record(s)"",""Welsh Public Record(s)"")"
+held_by,"held_by: is(""The National Archives, Kew"")"
+original_identifier,"original_identifier: if($identifier/ends(""_R.pdf""),uri fileExists,empty)"
+session,"session: if($folder/is(""file""),is(""am"") or is(""pm"") or is(""judgment"") or is(""opening"") or is(""costs"") or is(""swearing in"")) /*if opening,swearing in or costs there will be no case id*/"
+session_date,"session_date: if($folder/is(""file""), ukDate) //yyyy-mm-dd"
+case_id_[1-5],"case_id_1:  if($folder/is(""file""), if($session/is(""opening"") or $session/is(""costs"") or $session/is(""swearing in""),empty,regex(""^UKSC[\s]20[0-9]{2}\/[0-9]{4}$|UKSC|^20[0-9]{2}[\s]UKHL[\s][0-9]{2}""))) //no case_id if opening,costs or swearing in"
+case_name_[1-5],"case_name_1: if($folder/is(""folder""),empty)"
+case_summary_[1-5],
+case_summary_[1-5]_judgment,case_summary_1_judgment: @optional
+case_summary_[1-5]_reasons_for_judgment,case_summary_1_reasons_for_judgment: @optional
+hearing_start_date_[1-5],"hearing_start_date_1: if($case_id_2/empty,empty, if($session/is(""judgment"") or $session/is(""opening"") or $session/is(""costs"") or $session/is(""swearing in""),empty,ukDate(01/01/2010,31/12/2010))) /* date the hearing commenced, hearings only. Does not apply to judgements, opening, costs or swearing in. This date range is 2010 only, would need to be changed for future transfers*/"
+hearing_end_date_[1-5],"hearing_end_date_2: if($case_id_2/empty,empty, if($session/is(""judgment"") or $session/is(""opening"") or $session/is(""costs"") or $session/is(""swearing in""),empty,ukDate(01/01/2010,31/12/2010))) // date the hearing ended, hearings only. Does not apply to judgements, opening, costs or swearing in. This date range is 2010 only, would need to be changed for future transfers"
+department,
+film_name,"film_name: if($folder/is(""folder""),empty) if($film_maker/notEmpty, notEmpty)"
+summary,"summary: if($folder/is(""folder""),empty) if($film_name/notEmpty, notEmpty) if($photographer/notEmpty, notEmpty)"
+film_maker,"film_maker: if($folder/is(""folder""),empty"
+"video_or_audio_length_
+in_hours_mins_and_secs","video_or_audio_length_in_hours_mins_and_secs: if($folder/is(""file""),length(0,*))"
+classification,classification: @optional
+used_footage_duration_in_hours_mins_and_secs,"used_footage_duration_in_hours_mins_and_secs: if($folder/is(""file""),length(0,*))"
+picture_and_sound_quality,
+original_format,"original_format: if($folder/is(""file""),is(""Video - VHS"") or is(""Audio - Cassette"") or is(""Audio - RACAL tape"") or is(""Video - Umatic"") or is(""Blank""))"
+hearing_date,"hearing_date: if($folder/is(""file""), ukDate)"
+witness_list_1,"witness_list_1: if($folder/is(""file""),length(1,*))"
+subject_role_1,"subject_role_1: if($folder/is(""file""),length(1,*))"
+witness_list_2,
+subject_role_2,"subject_role_2: if($witness_list_2/empty,empty,length(1,*))"
+witness_list_3,witness_list_3: @optional
+subject_role_3,"subject_role_3: if($witness_list_3/empty,empty,length(1,*))"
+web_archive_url,"web_archive_url: if($folder/is(""file""),starts(""http://webarchive.nationalarchives.gov.uk/""))"
+category,
+Content_management_system_container,"Content_management_system_container: if($folder/is(""file""),notEmpty)"
+Business_area,"Business_area: if($folder/is(""file""),notEmpty)"
+description,"description: if($folder/is(""file""),length(1,*)) @optional"
+start_date,start_date: xDateTime @optional
+end_date ,end_date: xDateTime not($date_last_modified) @optional
+date_range,"date_range: regex(""\[19[7-9][2|7]\-19[7-9][1|6]\]"") @optional"
+curated_title ,"curated_title: regex(""^((?!\D{3}-\d{2}).)*$"")"
+restrictions_on_use ,
+physical_condition ,"physical_condition: any("""",""Damaged digital file. No content"",""Damaged digital file. Partially missing content"")"
+archivist_note ,"archivist_note: if($curated_title/notEmpty, notEmpty) if($physical_condition/notEmpty, notEmpty) if($date_archivist_note/notEmpty, notEmpty)"
+date_archivist_note (mandatory if using archivist_note),"date_archivist_note: if($archivist_note/notEmpty,ukDate)"
+language ,"language: is(""Welsh"") or is(""English"") or is(""English and Welsh"")"
+file_name_language ,file_name_language: @optional
+file_name_translation ,file_name_translation: @optional
+file_name_translation_language ,file_name_translation_language: @optional
+former_reference_department ,former_reference_department: @optional
+former_reference_TNA ,former_reference_TNA: @optional
+iaid,"iaid: if($ordinal/empty,empty,regex(""(C[0-9]{5,10})"")) @optional"
+note ,note:
+administrative_background ,
+photographer ,"photographer: if($folder/is(""folder""),empty)"
+related_material,
+attachment_link,
+attachment_former_reference,
+series_number,
+creating_body,
+crawl_start,
+crawl_end,
+filesize,
+TDR_consignment_ref,TDR_consignment_ref: @optional
+date_created,created_date: xDateTime @optional
+file_reference,file_reference:

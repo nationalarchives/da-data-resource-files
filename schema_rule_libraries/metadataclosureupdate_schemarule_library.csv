@@ -1,0 +1,6 @@
+fieldname,rule
+identifier,"identifier: uri fileExists unique if($folder/is(""folder""),ends(""/"")) integrityCheck (""includeFolder"")"
+file_name,"file_name: if($folder/is(""file""),regex(""202[0-9]{1}[0-9]{1,2}[0-9]{1,2}_closureupdate\.csv[s]?""),is(""content""))"
+folder,"folder: is(""folder"") or is(""file"")"
+checksum,"checksum: if($folder/is(""file""),checksum(file($identifier),""SHA-256""),empty)"
+legal_status,"legal_status: is(""Public Record(s)"")"
