@@ -1,0 +1,10 @@
+Filepath
+FileName
+FileType
+Filesize
+RightsCopyright
+LegalStatus
+HeldBy
+Language
+FoiExemptionCode
+LastModified
