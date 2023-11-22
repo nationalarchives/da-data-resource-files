@@ -68,3 +68,4 @@ filesize,
 TDR_consignment_ref,TDR_consignment_ref: @optional
 date_created,created_date: xDateTime @optional
 file_reference,file_reference:
+parent_reference,parent_reference:
